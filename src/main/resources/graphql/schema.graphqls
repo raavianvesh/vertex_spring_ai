@@ -1,0 +1,13 @@
+type Query {
+    chat(prompt: String!): ChatResponse!
+}
+
+input ChatRequest {
+    prompt: String!
+}
+
+type ChatResponse {
+    model: String!
+    prompt: String!
+    reply: String!
+}

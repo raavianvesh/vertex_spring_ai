@@ -1,0 +1,1 @@
+rootProject.name = "Vertex_Spring_AI"
