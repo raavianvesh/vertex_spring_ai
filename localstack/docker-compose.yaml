@@ -1,16 +1,18 @@
 services:
   localstack:
-    container_name: vertex-spring-ai-localstack-s3
-    image: localstack/localstack:latest
+    container_name: vertex-spring-ai-localstack
+    image: localstack/localstack:2026.05.1
     ports:
       - "127.0.0.1:4566:4566"
     environment:
-      SERVICES: s3
+      SERVICES: s3,dynamodb
+      AWS_ACCESS_KEY_ID: noop
+      AWS_SECRET_ACCESS_KEY: noop
       AWS_DEFAULT_REGION: us-east-1
-      BUCKET_NAME: vertex-spring-ai-localstack-s3
       DEBUG: 1
-      PERSISTENCE: 0
-    tmpfs:
-      - /var/lib/localstack
+      PERSISTENCE: 1
     volumes:
-      - "./localstack/init-s3.sh:/etc/localstack/init/ready.d/init-s3.sh"
+      - "localstack-data:/var/lib/localstack"
+
+volumes:
+  localstack-data:
