@@ -1,0 +1,16 @@
+services:
+  localstack:
+    container_name: vertex-spring-ai-localstack-s3
+    image: localstack/localstack:latest
+    ports:
+      - "127.0.0.1:4566:4566"
+    environment:
+      SERVICES: s3
+      AWS_DEFAULT_REGION: us-east-1
+      BUCKET_NAME: vertex-spring-ai-localstack-s3
+      DEBUG: 1
+      PERSISTENCE: 0
+    tmpfs:
+      - /var/lib/localstack
+    volumes:
+      - "./localstack/init-s3.sh:/etc/localstack/init/ready.d/init-s3.sh"
