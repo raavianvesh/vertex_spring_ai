@@ -1,9 +1,8 @@
 .gradle
+.gradletasknamecache
 build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
-.kotlin
+!gradle-wrapper.properties
+!**/src/**/build/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -14,8 +13,11 @@ build/
 *.iml
 *.ipr
 out/
-!**/src/main/**/out/
-!**/src/test/**/out/
+!**/src/**/out/
+
+### Eclipse ###
+.project
+.classpath
 
 ### VS Code ###
 .vscode/
@@ -23,16 +25,92 @@ out/
 ### Terraform ###
 **/.terraform/
 *.tfstate
-*.tfstate.backup
-*.tfstate.lock.info
-terraform.tfvars
-*.auto.tfvars
+*.tfstate.*
+*.tfvars
+*.tfvars.json
 crash.log
 crash.*.log
 override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
+*.tfstate.lock.info
+.terraformrc
+terraform.rc
+
+### Angular ###
+/dist/
+/out-tsc/
+/tmp/
+/coverage/
+/e2e/test-output/
+/.angular/
+/.angular-cli.json
+/.ng/
+
+### Next.js ###
+/.next/
+/out/
+next-env.d.ts
+
+### Node ###
+/node_modules/
+/package-lock.json
+/yarn.lock
+/.pnp
+.pnp.js
+
+### Environment ###
+.env
+.env*.local
+
+### TypeScript ###
+*.tsbuildinfo
+
+### Logs ###
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+### Vercel ###
+.vercel
+
+### Java ###
+*.class
+*.ctxt
+.mtj.tmp/
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+!gradle-wrapper.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+replay_pid*
+gradle-app.setting
+
+### Kotlin ###
+.kotlin/
 
 ### Mac OS ###
 .DS_Store
+*.pem
+
+### Windows ###
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+*.lnk
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
