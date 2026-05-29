@@ -1,14 +1,12 @@
 .gradle
 .gradletasknamecache
+bin/
 build/
 !gradle-wrapper.properties
 !**/src/**/build/
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositaries.xml
-.idea/compiler.xml
-.idea/libraries/
+.idea/
 *.iws
 *.iml
 *.ipr
