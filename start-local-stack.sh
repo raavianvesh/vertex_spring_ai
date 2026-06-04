@@ -35,16 +35,15 @@ fi
 cd "$SCRIPT_DIR"
 
 echo "Starting LocalStack and waiting for it to be healthy..."
-"$DOCKER_BIN" compose -f "$COMPOSE_FILE" up -d --wait
+"$DOCKER_BIN" compose -f "$COMPOSE_FILE" up -d --force-recreate --wait
 echo "LocalStack is ready."
 
 echo "Running Terraform..."
 cd "$SCRIPT_DIR/terraform/modules/localstack_resources"
 "$TERRAFORM_BIN" init -input=false
+"$TERRAFORM_BIN" fmt
 "$TERRAFORM_BIN" apply -auto-approve
 
 echo "LocalStack is running."
 echo "Endpoint: http://localhost:4566"
-echo "S3 bucket: vertex-spring-ai-local-stack-s3-document-store"
-echo "DynamoDB table: vertex-spring-ai-local-stack-dynamodb-document-data"
 

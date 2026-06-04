@@ -13,7 +13,7 @@ public class FileServiceImpl implements FileService{
 
     private final S3Client s3Client;
 
-    @Value("${aws.s3.bucketName}")
+    @Value("${aws.s3.bucket-name}")
     private String bucketName;
 
     public FileServiceImpl(S3Client s3Client) {

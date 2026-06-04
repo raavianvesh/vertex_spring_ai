@@ -1,0 +1,30 @@
+[versions]
+java = "21"
+springBoot = "3.5.14"
+springDependencyManagement = "1.1.7"
+freefairLombok = "9.5.0"
+awsSdk = "2.44.13"
+springAiBom = "1.0.0"
+springCloudAws = "3.4.2"
+swaggerAnnotationsJakarta = "2.2.47"
+springdocOpenapiStarterWebmvcUi = "2.8.17"
+jacksonBom = "3.1.2"
+gcpSdk = "7.4.8"
+gCloudBom = "26.83.0"
+libreOpenPdf = "3.0.5"
+
+[plugins]
+springBoot = { id = "org.springframework.boot", version.ref = "springBoot" }
+springDependencyManagement = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
+freefairLombok = { id = "io.freefair.lombok", version.ref = "freefairLombok" }
+
+[libraries]
+awsSdkBom = { module = "software.amazon.awssdk:bom", version.ref = "awsSdk" }
+googleCloudBom = { module = "com.google.cloud:libraries-bom", version.ref = "gCloudBom" }
+springCloudGcpBom = { module = "com.google.cloud:spring-cloud-gcp-dependencies", version.ref = "gcpSdk" }
+jacksonBom = { module = "tools.jackson:jackson-bom", version.ref = "jacksonBom" }
+springAiBom = { module = "org.springframework.ai:spring-ai-bom", version.ref = "springAiBom" }
+springCloudAwsBom = { module = "io.awspring.cloud:spring-cloud-aws-dependencies", version.ref = "springCloudAws" }
+swaggerAnnotationsJakarta = { module = "io.swagger.core.v3:swagger-annotations-jakarta", version.ref = "swaggerAnnotationsJakarta" }
+springdocOpenapiStarterWebmvcUi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdocOpenapiStarterWebmvcUi" }
+

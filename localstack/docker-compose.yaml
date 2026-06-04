@@ -5,7 +5,7 @@ services:
     ports:
       - "127.0.0.1:4566:4566"
     environment:
-      SERVICES: s3,dynamodb
+      SERVICES: s3,sqs
       AWS_ACCESS_KEY_ID: noop
       AWS_SECRET_ACCESS_KEY: noop
       AWS_DEFAULT_REGION: us-east-1

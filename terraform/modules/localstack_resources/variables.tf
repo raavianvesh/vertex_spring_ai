@@ -29,8 +29,8 @@ variable "s3_bucket_name" {
   default     = "vertex-spring-ai-local-stack-s3-document-store"
 }
 
-variable "dynamodb_table_name" {
-  description = "Name of the DynamoDB table for document data"
+variable "sqs_queue_name" {
+  description = "Name of the SQS queue for notifications"
   type        = string
-  default     = "vertex-spring-ai-local-stack-dynamodb-document-data"
+  default     = "vertex-spring-ai-local-stack-sqs-queue"
 }

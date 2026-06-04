@@ -11,10 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/file")
-public class FileUploadController {
+public class FileController {
     private final FileService fileService;
 
-    public FileUploadController(FileService fileService) {
+    public FileController(FileService fileService) {
         this.fileService = fileService;
     }
 
@@ -36,8 +36,17 @@ public class FileUploadController {
 
     }
 
-    @DeleteMapping("/delete")
-    public String deleteFile(@RequestParam("fileId") String fileId) {
+    @Operation(summary = "Delete a file by ID", description = "Deletes a file from S3 based on the provided file ID.")
+    @DeleteMapping(value = "/delete", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+    public String deleteFile(
+            @Parameter(
+                    description = "ID of the file to delete",
+                    required = true,
+                    content = @Content(
+                            mediaType = MediaType.TEXT_PLAIN_VALUE,
+                            schema = @Schema(type = "string"))
+            )
+            @RequestParam("fileId") String fileId) {
         try {
             fileService.deleteFile(fileId);
             return "File deleted successfully: " + fileId;
@@ -46,8 +55,17 @@ public class FileUploadController {
         }
     }
 
-    @GetMapping("/download")
-    public byte[] downloadFile(@RequestParam("fileId") String fileId) {
+    @Operation(summary = "Download a file by ID", description = "Retrieves a file from S3 based on the provided file ID.")
+    @GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public byte[] downloadFile(
+            @Parameter(
+                    description = "ID of the file to download",
+                    required = true,
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE,
+                            schema = @Schema(type = "string"))
+            )
+            @RequestParam("fileId") String fileId) {
         try {
             return fileService.getFile(fileId);
         } catch (Exception e) {
