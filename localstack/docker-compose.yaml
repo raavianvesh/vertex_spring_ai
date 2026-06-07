@@ -1,7 +1,58 @@
 services:
-  localstack:
+  pg-vector:
+    container_name: vertex-spring-ai-pgvector
+    image: pgvector/pgvector:pg18-trixie
+    restart: always
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: vertex_spring_ai_embeddings
+    volumes:
+      - vertex-spring-ai-pgvector-pg18-data:/var/lib/postgresql
+    healthcheck:
+      test:
+        ["CMD-SHELL", "pg_isready -U postgres -d vertex_spring_ai_embeddings"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      org.springframework.boot.service-connection: postgres
+
+  pg-admin:
+    container_name: vertex-spring-ai-pgadmin
+    image: dpage/pgadmin4:9.15.0
+    restart: always
+    depends_on:
+      pg-vector:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+      PGADMIN_REPLACE_SERVERS_ON_STARTUP: "True"
+      PGPASSFILE: /tmp/pgpassfile
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        cp /pgpassfile-src /tmp/pgpassfile
+        chmod 600 /tmp/pgpassfile
+        chown pgadmin:pgadmin /tmp/pgpassfile 2>/dev/null || true
+        exec /entrypoint.sh
+    volumes:
+      - vertex-spring-ai-pgadmin-data:/var/lib/pgadmin
+      - ./pgpassfile:/pgpassfile-src:ro
+      - ./pgadminservers.json:/pgadmin4/servers.json:ro
+
+  local-stack:
     container_name: vertex-spring-ai-localstack
     image: localstack/localstack:4
+    restart: always
     ports:
       - "127.0.0.1:4566:4566"
     environment:
@@ -12,7 +63,12 @@ services:
       DEBUG: 1
       PERSISTENCE: 1
     volumes:
-      - "localstack-data:/var/lib/localstack"
+      - localstack-data:/var/lib/localstack
 
 volumes:
+  vertex-spring-ai-pgvector-pg18-data:
+    name: vertex-spring-ai-pgvector-pg18-data
+  vertex-spring-ai-pgadmin-data:
+    name: vertex-spring-ai-pgadmin-data
   localstack-data:
+    name: vertex-spring-ai-localstack-data

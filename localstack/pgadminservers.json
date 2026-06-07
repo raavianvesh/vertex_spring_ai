@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Group": "Servers",
+      "Name": "PgVector PostgreSQL",
+      "Host": "pg-vector",
+      "Port": 5432,
+      "MaintenanceDB": "vertex_spring_ai_embeddings",
+      "Username": "postgres",
+      "SSLMode": "prefer",
+      "PassFile": "/tmp/pgpassfile"
+    }
+  }
+}

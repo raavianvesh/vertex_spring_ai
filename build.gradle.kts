@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.springBoot)
     alias(libs.plugins.springDependencyManagement)
     alias(libs.plugins.freefairLombok)
+    alias(libs.plugins.flywayPlugin)
 }
 
 group = "org.example"
@@ -38,6 +39,8 @@ dependencies {
     implementation(libs.swaggerAnnotationsJakarta)
     implementation(libs.springdocOpenapiStarterWebmvcUi)
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.flywaydb:flyway-core")
+    implementation("org.flywaydb:flyway-database-postgresql")
     implementation("org.springframework.ai:spring-ai-starter-model-vertex-ai-gemini")
     implementation("io.awspring.cloud:spring-cloud-aws-docker-compose")
     implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
@@ -46,7 +49,8 @@ dependencies {
     implementation("com.google.cloud:spring-cloud-gcp-starter")
     implementation("com.google.cloud:spring-cloud-gcp-starter-vision")
     implementation("com.google.cloud:spring-cloud-gcp-starter-storage")
-    implementation("org.springframework.ai:spring-ai-starter-model-google-genai-embedding")
+    implementation("org.springframework.ai:spring-ai-starter-vector-store-pgvector")
+    implementation("org.springframework.ai:spring-ai-starter-model-vertex-ai-embedding")
     implementation("com.google.cloud:google-cloud-document-ai")
     implementation("com.github.librepdf:openpdf:${libs.versions.libreOpenPdf.get()}")
     implementation("com.github.librepdf:openpdf-fonts-extra:${libs.versions.libreOpenPdf.get()}")

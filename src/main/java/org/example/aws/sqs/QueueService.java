@@ -3,6 +3,8 @@ package org.example.aws.sqs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.awspring.cloud.sqs.annotation.SqsListener;
+import io.awspring.cloud.sqs.annotation.SqsListenerAcknowledgementMode;
+import io.awspring.cloud.sqs.listener.acknowledgement.Acknowledgement;
 import org.example.service.PostDocumentUploadService;
 import org.springframework.stereotype.Component;
 
@@ -16,17 +18,19 @@ public class QueueService{
         this.objectMapper = objectMapper;
     }
 
-    @SqsListener("${aws.sqs.queue-name}")
-    public void listen(String message) {
+    @SqsListener(value = "${aws.sqs.queue-name}", acknowledgementMode = SqsListenerAcknowledgementMode.MANUAL)
+    public void listen(String receivedMessage, Acknowledgement acknowledgement) {
         try {
-            JsonNode jsonNode = objectMapper.readTree(message);
+            acknowledgement.acknowledge();
+
+            JsonNode jsonNode = objectMapper.readTree(receivedMessage);
             JsonNode recordsNode = jsonNode.path("Records");
             if (recordsNode.isMissingNode() || !recordsNode.isArray() || recordsNode.isEmpty()) {
                 return;
             }
-            postDocumentUploadService.handleS3Event(message);
+            postDocumentUploadService.handleS3Event(receivedMessage);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to parse s3 event message", e);
+            throw new RuntimeException("Failed to parse s3 event receivedMessage", e);
         }
     }
 }

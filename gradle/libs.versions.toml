@@ -3,20 +3,24 @@ java = "21"
 springBoot = "3.5.14"
 springDependencyManagement = "1.1.7"
 freefairLombok = "9.5.0"
+flywayGradlePlugin = "12.8.1"
+
 awsSdk = "2.44.13"
 springAiBom = "1.0.0"
+jacksonBom = "3.1.2"
+gCloudBom = "26.83.0"
+gcpSdk = "7.4.8"
+
 springCloudAws = "3.4.2"
 swaggerAnnotationsJakarta = "2.2.47"
 springdocOpenapiStarterWebmvcUi = "2.8.17"
-jacksonBom = "3.1.2"
-gcpSdk = "7.4.8"
-gCloudBom = "26.83.0"
 libreOpenPdf = "3.0.5"
 
 [plugins]
 springBoot = { id = "org.springframework.boot", version.ref = "springBoot" }
 springDependencyManagement = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
 freefairLombok = { id = "io.freefair.lombok", version.ref = "freefairLombok" }
+flywayPlugin = { id = "org.flywaydb.flyway", version.ref = "flywayGradlePlugin" }
 
 [libraries]
 awsSdkBom = { module = "software.amazon.awssdk:bom", version.ref = "awsSdk" }

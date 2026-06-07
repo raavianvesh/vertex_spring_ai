@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.tranformation.TransformationService;
 import org.example.utils.PdfService.SpringDocumentConversion;
 import org.springframework.ai.document.Document;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -23,15 +24,15 @@ public class PostDocumentUploadService {
     private final S3Client s3Client;
     private final ParseAndEnrichDocumentService parseAndEnrichDocumentService;
     private final TransformationService transformationService;
-
     private final VectorStore vectorStore;
 
 
-    public PostDocumentUploadService(ObjectMapper objectMapper, S3Client s3Client, ParseAndEnrichDocumentService parseAndEnrichDocumentService, TransformationService transformationService) {
+    public PostDocumentUploadService(ObjectMapper objectMapper, S3Client s3Client, ParseAndEnrichDocumentService parseAndEnrichDocumentService, TransformationService transformationService, VectorStore vectorStore) {
         this.objectMapper = objectMapper;
         this.s3Client = s3Client;
         this.parseAndEnrichDocumentService = parseAndEnrichDocumentService;
         this.transformationService = transformationService;
+        this.vectorStore = vectorStore;
     }
 
     public void handleS3Event(String message) throws Exception {
@@ -51,8 +52,13 @@ public class PostDocumentUploadService {
             // chunk the text
             List<Document> springAiChunks = transformationService.chunkTextUsingSpringAi(springDocumentConversion);
             List<Document> documentAiChunks = transformationService.chunkWithGcpDocumentAi(springDocumentConversion);
-            // embed and index automatically performed under the hood when stored in to vector db
-
+            // combine chunks
+            List<Document> vectorStoreDocuments = transformationService.combineTextChunksWithDocumentAiMetadata(
+                    springDocumentConversion,
+                    springAiChunks,
+                    documentAiChunks);
+            // embed Spring AI text chunks and store them with original document + Document AI metadata
+            vectorStore.write(vectorStoreDocuments);
         }
     }
 

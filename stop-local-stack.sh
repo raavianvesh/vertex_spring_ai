@@ -1,8 +1,13 @@
 #!/bin/sh
 set -eu
 
-SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+SCRIPT_DIR=$(unset CDPATH; cd -- "$(dirname -- "$0")" && pwd)
 COMPOSE_FILE="localstack/docker-compose.yaml"
+COMPOSE_VOLUME_NAMES="
+vertex-spring-ai-pgvector-pg18-data
+vertex-spring-ai-pgadmin-data
+vertex-spring-ai-localstack-data
+"
 
 if command -v docker.exe >/dev/null 2>&1; then
   DOCKER_BIN="docker.exe"
@@ -74,4 +79,18 @@ fi
 cd "$SCRIPT_DIR"
 
 "$DOCKER_BIN" compose -f "$COMPOSE_FILE" down --remove-orphans --volumes
+
+echo "Removing Docker volumes..."
+for volume_name in $COMPOSE_VOLUME_NAMES; do
+  if "$DOCKER_BIN" volume inspect "$volume_name" >/dev/null 2>&1; then
+    if "$DOCKER_BIN" volume rm "$volume_name" >/dev/null 2>&1; then
+      echo "Removed volume: $volume_name"
+    else
+      echo "Could not remove volume, it may still be in use: $volume_name" >&2
+    fi
+  else
+    echo "Volume already removed or not found: $volume_name"
+  fi
+done
+
 echo "LocalStack has been stopped."
