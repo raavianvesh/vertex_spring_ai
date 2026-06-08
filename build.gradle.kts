@@ -51,6 +51,7 @@ dependencies {
     implementation("com.google.cloud:spring-cloud-gcp-starter-storage")
     implementation("org.springframework.ai:spring-ai-starter-vector-store-pgvector")
     implementation("org.springframework.ai:spring-ai-starter-model-vertex-ai-embedding")
+    implementation("org.springframework.ai:spring-ai-advisors-vector-store")
     implementation("com.google.cloud:google-cloud-document-ai")
     implementation("com.github.librepdf:openpdf:${libs.versions.libreOpenPdf.get()}")
     implementation("com.github.librepdf:openpdf-fonts-extra:${libs.versions.libreOpenPdf.get()}")
